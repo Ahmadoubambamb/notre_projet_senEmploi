@@ -8,53 +8,63 @@ class LoginConnexion extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Connexion'),
-        ),
-        body: ListView(children: [
-          Image.asset(
-            'images/Recrutement',
-            width: 700,
-            height: 700,
-            fit: BoxFit.cover,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextField(
-                  controller: emailController,
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                TextField(
-                  controller: passwordController,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Mot de passe',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    // Appeler la fonction de connexion ici
-                  },
-                  child: const Text('Se connecter'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    // Naviguer vers l'écran de création de compte
-                  },
-                  child: const Text('Créer un compte'),
-                ),
-              ],
+      body: Stack(
+        children: [
+          // notre image en arrière-plan pour l'instant
+          Positioned.fill(
+            child: Image.asset(
+              'images/Recrutement.jpg',
+              fit: BoxFit.cover,
             ),
           ),
-        ]));
+          // ceci est le contenu principal (formulaire de connexion)
+          //on va l'ameliorer
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextField(
+                    controller: emailController,
+                    decoration: InputDecoration(
+                      labelText: 'Email',
+                      border: const OutlineInputBorder(),
+                      fillColor: Colors.white.withOpacity(0.8),
+                      filled: true,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: passwordController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      labelText: 'Mot de passe',
+                      border: const OutlineInputBorder(),
+                      fillColor: Colors.white.withOpacity(0.8),
+                      filled: true,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      // Appeler la fonction de connexion ici.
+                      //
+                    },
+                    child: const Text('Se connecter'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      // ici la fonction de navigation vers l'écran de création de compte
+                    },
+                    child: const Text('Créer un compte'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

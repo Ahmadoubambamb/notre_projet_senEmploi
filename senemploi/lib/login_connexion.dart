@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'nav_bar.dart';
 
 class LoginConnexion extends StatelessWidget {
   LoginConnexion({super.key});
@@ -8,12 +9,23 @@ class LoginConnexion extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 225, 241, 248),
+        title: const Text(
+          "SEN EMPLOI",
+          style: TextStyle(
+            fontSize: 30,
+          ),
+        ),
+        centerTitle: true,
+        leadingWidth: 500,
+      ),
       body: Stack(
         children: [
           // notre image en arrière-plan pour l'instant
           Positioned.fill(
             child: Image.asset(
-              'images/Recrutement.jpg',
+              'images/job3.jpg',
               fit: BoxFit.cover,
             ),
           ),
@@ -22,44 +34,54 @@ class LoginConnexion extends StatelessWidget {
           Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextField(
-                    controller: emailController,
-                    decoration: InputDecoration(
-                      labelText: 'Email',
-                      border: const OutlineInputBorder(),
-                      fillColor: Colors.white.withOpacity(0.8),
-                      filled: true,
-                    ),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white
+                      .withOpacity(0.8), // Fond blanc semi-transparent
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextField(
+                        controller: emailController,
+                        decoration: const InputDecoration(
+                          labelText: 'votre mail',
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15))),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      TextField(
+                        controller: passwordController,
+                        obscureText: true,
+                        decoration: const InputDecoration(
+                          labelText: 'Mot de passe',
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15))),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () {
+                          // Fonction de connexion
+                          const NavBar();
+                        },
+                        child: const Text('Se connecter'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          // Navigation vers la création de compte
+                        },
+                        child: const Text('Créer un compte'),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 10),
-                  TextField(
-                    controller: passwordController,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      labelText: 'Mot de passe',
-                      border: const OutlineInputBorder(),
-                      fillColor: Colors.white.withOpacity(0.8),
-                      filled: true,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Appeler la fonction de connexion ici.
-                      //
-                    },
-                    child: const Text('Se connecter'),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      // ici la fonction de navigation vers l'écran de création de compte
-                    },
-                    child: const Text('Créer un compte'),
-                  ),
-                ],
+                ),
               ),
             ),
           ),

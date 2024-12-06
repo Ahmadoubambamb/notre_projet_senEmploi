@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'nav_bar.dart';
+import 'cree_compte.dart';
 
 class LoginConnexion extends StatelessWidget {
   LoginConnexion({super.key});
@@ -69,13 +69,17 @@ class LoginConnexion extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () {
                           // Fonction de connexion
-                          const NavBar();
                         },
                         child: const Text('Se connecter'),
                       ),
                       TextButton(
                         onPressed: () {
                           // Navigation vers la création de compte
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CreeCompte()),
+                          );
                         },
                         child: const Text('Créer un compte'),
                       ),

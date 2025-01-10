@@ -72,6 +72,7 @@ flutter:
     - images/job2.jpg
     - images/job3.jpg
     - images/job4.jpg
+    - images/ijob.jpg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "918382248107",
+    "project_id": "senemploi-71f45",
+    "storage_bucket": "senemploi-71f45.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:918382248107:android:94c06a301fc66a48e9f7ee",
+        "android_client_info": {
+          "package_name": "com.example.senemploi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCb-397l0Kooh6EVkc2kLY3oF3hljO5_Io"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

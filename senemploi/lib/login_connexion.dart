@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:senemploi/acceuilPage.dart';
+import 'package:firebase_auth/firebase_auth.dart'; // Import ajouté
+import 'acceuilPage.dart';
 import 'cree_compte.dart';
 
-class LoginConnexion extends StatelessWidget {
+class LoginConnexion extends StatefulWidget {
   LoginConnexion({super.key});
+
+  @override
+  State<LoginConnexion> createState() => _LoginConnexionState();
+}
+
+class _LoginConnexionState extends State<LoginConnexion> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -20,10 +27,10 @@ class LoginConnexion extends StatelessWidget {
             // Image de fond de l'AppBar
             Container(
               decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('images/ijob.jpg'), // Image de fond
-                  fit: BoxFit.cover, // Couvrir toute la largeur
-                ),
+                // image: DecorationImage(
+                //   image: AssetImage(), // Image de fond
+                //   fit: BoxFit.cover, // Couvrir toute la largeur
+                // ),
               ),
             ),
             // Titre superposé sur l'image
@@ -31,7 +38,7 @@ class LoginConnexion extends StatelessWidget {
               child: Text(
                 "SEN EMPLOI",
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 26,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                   shadows: [
@@ -47,13 +54,17 @@ class LoginConnexion extends StatelessWidget {
             // Icônes superposées sur l'image
             Positioned(
               right: 10, // Position des icônes à droite
-              top: 10, // Position des icônes en haut
+              top: 23, // Position des icônes en haut
               child: Row(
                 children: [
                   IconButton(
                     icon: Icon(Icons.home, color: Colors.white),
                     onPressed: () {
                       // Action pour la page d'accueil
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AccueilPage()),
+                      );
                     },
                   ),
                   IconButton(
@@ -83,7 +94,7 @@ class LoginConnexion extends StatelessWidget {
       body: DecoratedBox(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('images/job3.jpg'), // Image de fond de la page
+            image: AssetImage('images/job3p.png'), // Image de fond de la page
             fit: BoxFit.cover,
           ),
         ),
@@ -125,16 +136,91 @@ class LoginConnexion extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
                   ElevatedButton(
-                    onPressed: () {
-                      // Fonction de Connexion,
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => AccueilPage(),
-                        ),
+                    onPressed: () async {
+                      String email = emailController.text.trim();
+                      String password = passwordController.text.trim();
+
+                      if (email.isEmpty || password.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Veuillez remplir tous les champs.')),
+                        );
+                        return;
+                      }
+
+                      // Afficher un indicateur de chargement
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (BuildContext context) {
+                          return const Center(child: CircularProgressIndicator());
+                        },
                       );
+
+                      try {
+                        // Connexion avec Firebase Auth
+                        await FirebaseAuth.instance.signInWithEmailAndPassword(
+                          email: email,
+                          password: password,
+                        );
+
+                        // Fermer l'indicateur de chargement
+                        if (mounted) {
+                          Navigator.of(context).pop();
+                        }
+
+                        // Naviguer vers la page d'accueil
+                        if (mounted) {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => AccueilPage()),
+                          );
+                        }
+                      } on FirebaseAuthException catch (e) {
+                        // Fermer l'indicateur de chargement
+                        if (mounted) {
+                          Navigator.of(context).pop();
+                        }
+
+                        String errorMessage;
+                        switch (e.code) {
+                          case 'user-not-found':
+                            errorMessage = 'Aucun utilisateur trouvé avec cet email.';
+                            break;
+                          case 'wrong-password':
+                            errorMessage = 'Mot de passe incorrect.';
+                            break;
+                          case 'invalid-email':
+                            errorMessage = 'L\'adresse email est invalide.';
+                            break;
+                          case 'network-request-failed':
+                            errorMessage = 'Problème de connexion Internet. Veuillez vérifier votre connexion.';
+                            break;
+                          default:
+                            errorMessage = 'Une erreur est survenue : ${e.message}';
+                            break;
+                        }
+
+                        // Afficher le message d'erreur
+                        if (mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(errorMessage)),
+                          );
+                        }
+                      } catch (e) {
+                        // Fermer l'indicateur de chargement
+                        if (mounted) {
+                          Navigator.of(context).pop();
+                        }
+
+                        // Gérer les autres types d'erreurs
+                        if (mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Une erreur inattendue est survenue.')),
+                          );
+                        }
+                      }
                     },
-                    child: const Text('Se connecter'),
+                    child: const Text('Se connecter'), // `child` en dernier
                   ),
                   TextButton(
                     onPressed: () {
@@ -144,14 +230,14 @@ class LoginConnexion extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => CreeCompte()),
                       );
                     },
-                    child: const Text('Créer un compte'),
+                    child: const Text('Créer un compte'), // `child` en dernier
                   ),
                 ],
               ),
               margin: const EdgeInsets.symmetric(
-                  horizontal: 10.0,
-                  // Marge extérieure seul
-                  vertical: 90.0),
+                horizontal: 10.0,
+                vertical: 90.0,
+              ),
             ),
             SizedBox(
                 height: MediaQuery.of(context).size.height *

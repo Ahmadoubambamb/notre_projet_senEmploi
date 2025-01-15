@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'publication_offre_page.dart'; // Importez la nouvelle page
 
 class AccueilPage extends StatelessWidget {
   @override
@@ -25,48 +26,67 @@ class AccueilPage extends StatelessWidget {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Barre de recherche
-            _buildSearchBar(),
-            const SizedBox(height: 20),
+      body: DecoratedBox(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('images/job3.jpg'), // Chemin de l'image
+            fit: BoxFit.cover, // Couvrir tout l'espace
+          ),
+        ),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Barre de recherche
+              _buildSearchBar(),
+              const SizedBox(height: 20),
 
-            // Catégories d'emplois
-            Text(
-              "Catégories",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.blue.shade800,
+              // Catégories d'emplois
+              Text(
+                "Catégories",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue.shade800,
+                ),
               ),
-            ),
-            const SizedBox(height: 10),
-            _buildCategories(),
-            const SizedBox(height: 20),
+              const SizedBox(height: 10),
+              _buildCategories(),
+              const SizedBox(height: 20),
 
-            // Offres d'emploi récentes
-            Text(
-              "Offres récentes",
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.blue.shade800,
+              // Offres d'emploi récentes
+              Text(
+                "Offres récentes",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue.shade800,
+                ),
               ),
-            ),
-            const SizedBox(height: 10),
-            _buildRecentJobs(),
-          ],
+              const SizedBox(height: 10),
+              _buildRecentJobs(),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Naviguer vers la page de publication d'offre
+          _navigateToPublicationOffre(
+              context); // Appeler la fonction de navigation
         },
         child: Icon(Icons.add, color: Colors.white),
         backgroundColor: Colors.blue.shade800,
+      ),
+    );
+  }
+
+  // Fonction pour naviguer vers la page de publication d'offre
+  void _navigateToPublicationOffre(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PublicationOffrePage(),
       ),
     );
   }
@@ -173,6 +193,11 @@ class AccueilPage extends StatelessWidget {
         "company": "Restaurant Mere Seuleum",
         "location": "Kaolack, Sénégal",
       },
+      {
+        "title": "Plomberie",
+        "company": "Hopital",
+        "location": "Ville de votre emplacement"
+      },
     ];
 
     return ListView.builder(
@@ -192,7 +217,7 @@ class AccueilPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  jobs[index]["title"] ?? "title non spécifiée",
+                  jobs[index]["title"] ?? "Titre non spécifié",
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -200,7 +225,7 @@ class AccueilPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  jobs[index]["company"] ?? "compagny non spécifiée",
+                  jobs[index]["company"] ?? "Compagnie non spécifiée",
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.grey.shade700,
